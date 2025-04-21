@@ -1,11 +1,13 @@
 <script>
 import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
 import ExpenseTable from '../components/ExpenseTable.vue';
+import Navbar from '../components/Navbar.vue';
 
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 
 export default {
   components: {
+    Navbar,
     ExpenseTable,
   },
   name: 'ExpenseList',
@@ -66,10 +68,7 @@ export default {
 <template>
   <div class="view-expenses p-2 bg-gray-50 lg:p-6 mx-0 lg:mx-64 w-min md:w-auto">
     <!-- Navbar -->
-    <nav class="bg-white shadow rounded-md p-4 mb-6 flex justify-between items-center">
-      <span class="text-xl font-semibold text-gray-800">Expense Tracker</span>
-      <button class="text-gray-600 hover:text-red-500">Log out</button>
-    </nav>
+    <Navbar/>
 
     <!-- Pie Chart -->
     <div class="flex flex-col items-center gap-8 bg-white p-6 rounded-xl shadow-sm border border-gray-200">

@@ -1,11 +1,13 @@
 <script>
 import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
 import ExpenseTable from '../components/ExpenseTable.vue';
+import Navbar from '../components/Navbar.vue';
 
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 
 export default {
   components: {
+    Navbar,
     ExpenseTable,
   },
   name: 'Dashboard',
@@ -18,6 +20,8 @@ export default {
         { date: '2025-04-21', category: 'Dining', amount: 500, note: 'This is a note for the expense' },
         { date: '2025-04-20', category: 'Dining', amount: 1000, note: 'This is a note for the expense' },
       ],
+      totalIncome: 10000,
+      totalExpenses: 5000,
     };
   },
   methods: {
@@ -31,7 +35,7 @@ export default {
           labels: ['Income', 'Expenses'],
           datasets: [
             {
-              data: [10000, 5000],
+              data: [this.totalIncome, this.totalExpenses],
               backgroundColor: ['#16a34a', '#dc2626'],
               borderWidth: 1,
               hoverOffset: 10,
@@ -59,10 +63,7 @@ export default {
 <template>
   <div class="min-h-screen bg-gray-50 p-6 font-sans mx-0 lg:mx-64">
     <!-- Navbar -->
-    <nav class="bg-white shadow rounded-md p-4 mb-6 flex justify-between items-center">
-      <span class="text-xl font-semibold text-gray-800">Expense Tracker</span>
-      <button class="text-gray-600 hover:text-red-500">Log out</button>
-    </nav>
+    <Navbar />
 
     <!-- Greeting and Add Button -->
     <div class="flex justify-between items-start mb-4">
@@ -91,8 +92,8 @@ export default {
         <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
           <!-- Text breakdown -->
           <div class="space-y-1 text-md">
-            <p class="text-green-600">🟢 Income: ₹10,000</p>
-            <p class="text-red-500">🔴 Expenses: ₹5,000</p>
+            <p class="text-green-600">🟢 Income: ₹{{ this.totalIncome }}</p>
+            <p class="text-red-500">🔴 Expenses: ₹{{ this.totalExpenses }}</p>
           </div>
           <!-- Pie chart -->
           <canvas ref="pieChart" style="width: 200px;"></canvas>
