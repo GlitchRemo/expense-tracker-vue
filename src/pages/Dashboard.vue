@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-6 font-sans sm:mx-0 lg:mx-64">
+  <div class="min-h-screen bg-gray-50 p-6 font-sans mx-0 lg:mx-64">
     <!-- Navbar -->
     <nav class="bg-white shadow rounded-md p-4 mb-6 flex justify-between items-center">
       <span class="text-xl font-semibold text-gray-800">Expense Tracker</span>
@@ -54,10 +54,10 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="text-gray-700 bg-gray-100">
-              <th class="px-4 py-2 border-b">Date</th>
-              <th class="px-4 py-2 border-b">Category</th>
-              <th class="px-4 py-2 border-b">Amount</th>
-              <th class="px-4 py-2 border-b">Action</th>
+              <th class="px-4 py-2 border-b min-w-[125px]">Date</th>
+              <th class="px-4 py-2 border-b min-w-[125px]">Category</th>
+              <th class="px-4 py-2 border-b min-w-[125px]">Amount</th>
+              <th class="px-4 py-2 border-b min-w-[125px]">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -65,8 +65,8 @@
               <td class="px-4 py-2 border-b">{{ item.date }}</td>
               <td class="px-4 py-2 border-b">{{ item.category }}</td>
               <td class="px-4 py-2 border-b">₹{{ item.amount }}</td>
-              <td class="px-4 py-2 border-b">
-                <button class="text-blue-600 hover:underline mr-4 lg:mr-8">
+              <td class="flex gap-4 px-4 py-2 border-b">
+                <button class="text-blue-600 hover:underline">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button class="text-red-600 hover:underline">
