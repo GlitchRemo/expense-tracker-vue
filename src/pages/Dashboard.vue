@@ -1,3 +1,55 @@
+<script>
+import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
+
+Chart.register(PieController, ArcElement, Tooltip, Legend);
+
+export default {
+  name: 'Dashboard',
+  data() {
+    return {
+      expenses: [
+        { id: 1, date: '2025-04-21', category: 'Groceries', amount: 1200, note: 'This is a note for the expense' },
+        { id: 2, date: '2025-04-20', category: 'Transport', amount: 300, note: 'This is a note for the expense' },
+        { id: 3, date: '2025-04-18', category: 'Utilities', amount: 800, note: 'This is a note for the expense' },
+      ],
+    };
+  },
+  methods: {
+    navigateToAddExpense() {
+      this.$router.push('/add-expense');
+    },
+    drawPieChart() {
+      new Chart(this.$refs.pieChart, {
+        type: 'pie',
+        data: {
+          labels: ['Income', 'Expenses'],
+          datasets: [
+            {
+              data: [10000, 5000],
+              backgroundColor: ['#16a34a', '#dc2626'],
+              borderWidth: 1,
+              hoverOffset: 10,
+            },
+          ],
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+        },
+      });
+    },
+  },
+  mounted() {
+    this.drawPieChart();
+  },
+};
+</script>
+
 <template>
   <div class="min-h-screen bg-gray-50 p-6 font-sans mx-0 lg:mx-64">
     <!-- Navbar -->
@@ -55,7 +107,7 @@
           <thead>
             <tr class="text-gray-700 bg-gray-100">
               <th class="px-4 py-2 border-b min-w-[125px]">Date</th>
-              <th class="px-4 py-2 border-b min-w-[125px]">Category</th>
+              <th class="px-4 py-2 border-b min-w-[200px]">Category</th>
               <th class="px-4 py-2 border-b min-w-[125px]">Amount</th>
               <th class="px-4 py-2 border-b min-w-[125px]">Action</th>
             </tr>
@@ -63,7 +115,15 @@
           <tbody>
             <tr v-for="item in expenses" :key="item.id" class="hover:bg-gray-50">
               <td class="px-4 py-2 border-b">{{ item.date }}</td>
-              <td class="px-4 py-2 border-b">{{ item.category }}</td>
+              <td class="px-4 py-2 border-b">{{ item.category }}
+                <div v-if="item.note" class="group relative inline-block ml-2">
+                  <i class="fas fa-info-circle text-gray-500 cursor-pointer"></i>
+                  <div
+                    class="absolute z-10 hidden group-hover:block bg-gray-700 text-white text-sm px-3 py-2 rounded w-max max-w-xs whitespace-normal shadow-lg bottom-full left-1/2 -translate-x-1/2 mb-2">
+                   {{item.note}}
+                  </div>
+                </div>
+              </td>
               <td class="px-4 py-2 border-b">₹{{ item.amount }}</td>
               <td class="flex gap-4 px-4 py-2 border-b">
                 <button class="text-blue-600 hover:underline">
@@ -80,54 +140,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
-
-Chart.register(PieController, ArcElement, Tooltip, Legend);
-
-export default {
-  name: 'Dashboard',
-  data() {
-    return {
-      expenses: [
-        { id: 1, date: '2025-04-21', category: 'Groceries', amount: 1200 },
-        { id: 2, date: '2025-04-20', category: 'Transport', amount: 300 },
-        { id: 3, date: '2025-04-18', category: 'Utilities', amount: 800 },
-      ],
-    };
-  },
-  methods: {
-    navigateToAddExpense() {
-      this.$router.push('/add-expense');
-    },
-    drawPieChart() {
-      new Chart(this.$refs.pieChart, {
-        type: 'pie',
-        data: {
-          labels: ['Income', 'Expenses'],
-          datasets: [
-            {
-              data: [10000, 5000],
-              backgroundColor: ['#16a34a', '#dc2626'],
-              borderWidth: 0,
-            },
-          ],
-        },
-        options: {
-          responsive: false,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-        },
-      });
-    },
-  },
-  mounted() {
-    this.drawPieChart();
-  },
-};
-</script>
