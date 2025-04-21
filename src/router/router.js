@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Dashboard from './pages/Dashboard.vue';
-import AddExpense from './pages/AddExpense.vue';
-import ViewExpenses from './pages/ViewExpenses.vue';
+import Dashboard from '../pages/Dashboard.vue';
+import AddExpense from '../pages/AddExpense.vue';
+import ViewExpenses from '../pages/ViewExpenses.vue';
 
 const routes = [
   { path: '/', name: 'Dashboard', component: Dashboard },
