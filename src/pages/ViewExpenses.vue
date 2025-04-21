@@ -1,9 +1,13 @@
 <script>
 import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
+import ExpenseTable from '../components/ExpenseTable.vue';
 
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 
 export default {
+  components: {
+    ExpenseTable,
+  },
   name: 'ExpenseList',
   data() {
     return {
@@ -12,6 +16,7 @@ export default {
         { date: '2025-04-19', category: 'Transport', amount: 400, note: 'This is a note for the expense' },
         { date: '2025-04-20', category: 'Utilities', amount: 800, note: 'This is a note for the expense' },
         { date: '2025-04-21', category: 'Dining', amount: 500, note: 'This is a note for the expense' },
+        { date: '2025-04-20', category: 'Dining', amount: 1000, note: 'This is a note for the expense' },
       ],
       categoryColors: {
         Groceries: '#f87171', // Red
@@ -80,39 +85,7 @@ export default {
       </div>
     </div>
 
-    <h1 class="text-2xl font-bold">Expense List</h1>
-    <table class="table-auto text-left w-full mt-4 border-collapse border border-gray-300">
-      <thead>
-        <tr class="bg-gray-200">
-          <th class="border-b border-gray-300 px-4 py-2 min-w-[125px]">Date</th>
-          <th class="border-b border-gray-300 px-4 py-2 min-w-[200px]">Category</th>
-          <th class="border-b border-gray-300 px-4 py-2 min-w-[125px]">Amount</th>
-          <th class="border-b border-gray-300 px-4 py-2 min-w-[125px]">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="expense in expenses" :key="expense.id">
-          <td class="border-b border-gray-300 px-4 py-2">{{ expense.date }}</td>
-          <td class="border-b border-gray-300 px-4 py-2">{{ expense.category }}
-            <div v-if="expense.note" class="group relative inline-block ml-2">
-              <i class="fas fa-info-circle text-gray-500 cursor-pointer"></i>
-              <div
-                class="absolute z-10 hidden group-hover:block bg-gray-700 text-white text-sm px-3 py-2 rounded w-max max-w-xs whitespace-normal shadow-lg bottom-full left-1/2 -translate-x-1/2 mb-2">
-                {{ expense.note }}
-              </div>
-            </div>
-          </td>
-          <td class="border-b border-gray-300 px-4 py-2">₹{{ expense.amount }}</td>
-          <td class="flex gap-6 px-4 py-2 border-b">
-            <button class="text-blue-600 hover:underline">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="text-red-600 hover:underline">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <h1 class="text-2xl font-bold my-8">Expense List</h1>
+    <ExpenseTable :expenses="expenses" />
   </div>
 </template>
