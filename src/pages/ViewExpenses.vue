@@ -86,6 +86,10 @@ export default {
         this.expenses = updatedExpenses;
       });
     },
+
+    updateExpensesHandler(updatedExpenses) {
+      this.expenses = updatedExpenses;
+    },
   },
 
   created() {
@@ -114,6 +118,11 @@ export default {
     </div>
 
     <h1 class="text-2xl font-bold my-8">Expense List</h1>
-    <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" :onEditExpense="editExpenseHandler" />
+    <ExpenseTable 
+      :expenses="expenses" 
+      :onDeleteExpense="deleteExpenseHandler" 
+      :onEditExpense="editExpenseHandler" 
+      :updateExpenses="updateExpensesHandler" 
+    />
   </div>
 </template>

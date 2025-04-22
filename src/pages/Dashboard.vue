@@ -45,6 +45,9 @@ export default {
         this.expenses = updatedExpenses;
       });
     },
+    updateExpensesHandler(updatedExpenses) {
+      this.expenses = updatedExpenses;
+    },
   },
   created() {
     this.fetchDashboardData();
@@ -86,7 +89,12 @@ export default {
     <!-- Expense List -->
     <div class="mt-8 border border-gray-200 bg-white p-6 rounded-xl shadow-sm">
       <h1 class="text-2xl font-bold mb-4">Expense List</h1>
-      <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" :onEditExpense="editExpenseHandler" />
+      <ExpenseTable 
+        :expenses="expenses" 
+        :onDeleteExpense="deleteExpenseHandler" 
+        :onEditExpense="editExpenseHandler" 
+        :updateExpenses="updateExpensesHandler" 
+      />
     </div>
   </div>
 </template>

@@ -21,7 +21,28 @@ export async function deleteExpense(id, expenses, updateExpenses) {
     }
 }
 
-export async function editExpense(id, updatedData, expenses, updateExpenses) {
+export async function addExpense(newExpense) {
+    try {
+        const response = await fetch('http://localhost:8080/api/expense', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newExpense),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add expense');
+        }
+
+        alert('Expense added successfully');
+    } catch (error) {
+        console.error('Error adding expense:', error);
+        alert('An error occurred while adding the expense');
+    }
+}
+
+export async function editExpense(id, updatedData, expenses) {
     try {
         const response = await fetch(`http://localhost:8080/api/expense?id=${id}`, {
             method: 'PUT',
@@ -35,11 +56,12 @@ export async function editExpense(id, updatedData, expenses, updateExpenses) {
             throw new Error('Failed to edit expense');
         }
 
-        const updatedExpenses = expenses.map(item => 
+        const updatedExpenses = expenses.map(item =>
             item.id === id ? { ...item, ...updatedData } : item
         );
-        updateExpenses(updatedExpenses);
         alert('Expense updated successfully');
+
+        return updatedExpenses
     } catch (error) {
         console.error('Error editing expense:', error);
         alert('An error occurred while editing the expense');
