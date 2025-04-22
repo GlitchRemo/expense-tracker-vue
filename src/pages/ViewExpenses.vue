@@ -2,7 +2,7 @@
 import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
 import ExpenseTable from '../components/ExpenseTable.vue';
 import Navbar from '../components/Navbar.vue';
-import { deleteExpense } from '../utils/expenseUtils';
+import { deleteExpense, editExpense } from '../utils/expenseUtils';
 
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 
@@ -80,6 +80,12 @@ export default {
         this.expenses = updatedExpenses;
       });
     },
+
+    async editExpenseHandler(id, updatedData) {
+      await editExpense(id, updatedData, this.expenses, updatedExpenses => {
+        this.expenses = updatedExpenses;
+      });
+    },
   },
 
   created() {
@@ -108,6 +114,6 @@ export default {
     </div>
 
     <h1 class="text-2xl font-bold my-8">Expense List</h1>
-    <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" />
+    <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" :onEditExpense="editExpenseHandler" />
   </div>
 </template>

@@ -41,6 +41,8 @@ func main() {
 			handlers.AddExpenseHandler(w, r)
 		case http.MethodDelete:
 			handlers.DeleteExpenseHandler(w, r)
+		case http.MethodPut:
+			handlers.EditExpenseHandler(w, r)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}

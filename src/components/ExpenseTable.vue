@@ -24,7 +24,7 @@
           </td>
           <td class="px-4 py-2 border-b">₹{{ item.amount }}</td>
           <td class="flex gap-4 px-4 py-2 border-b">
-            <button class="text-blue-600 hover:underline">
+            <button class="text-blue-600 hover:underline" @click="editExpense(item)">
               <i class="fas fa-edit"></i>
             </button>
             <button class="text-red-600 hover:underline" @click="deleteExpense(item.id)">
@@ -49,12 +49,28 @@ export default {
             type: Function,
             required: false,
         },
+        onEditExpense: {
+            type: Function,
+            required: false,
+        },
     },
     methods: {
         deleteExpense(id) {
             if (this.onDeleteExpense) {
                 this.onDeleteExpense(id);
             }
+        },
+        editExpense(item) {
+            const updatedData = { ...item };
+            const newCategory = prompt('Edit Category:', item.category);
+            const newAmount = prompt('Edit Amount:', item.amount);
+            const newNote = prompt('Edit Note:', item.note || '');
+
+            if (newCategory !== null) updatedData.category = newCategory;
+            if (newAmount !== null) updatedData.amount = parseInt(newAmount, 10);
+            if (newNote !== null) updatedData.note = newNote;
+
+            this.$emit('edit-expense', item.id, updatedData);
         },
     },
 };

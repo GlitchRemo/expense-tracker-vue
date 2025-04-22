@@ -9,9 +9,9 @@
       <!-- Date Field -->
       <div>
         <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-        <input type="date" id="date" v-model="formData.create_date"
+        <input type="date" id="date" v-model="formData.date"
           class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <p v-if="formErrors.create_date" class="text-red-500 text-sm">{{ formErrors.create_date }}</p>
+        <p v-if="formErrors.date" class="text-red-500 text-sm">{{ formErrors.date }}</p>
       </div>
 
       <!-- Category Field -->
@@ -66,13 +66,13 @@ export default {
   data() {
         return {
             formData: {
-                create_date: '',
+                date: '',
                 category: '',
                 amount: null,
                 note: ''
             },
             formErrors: {
-                create_date: '',
+                date: '',
                 category: '',
                 amount: ''
             }
@@ -80,10 +80,10 @@ export default {
     },
     methods: {
         async submitForm() {
-            this.formErrors = { create_date: '', category: '', amount: '' };
+            this.formErrors = { date: '', category: '', amount: '' };
 
-            if (!this.formData.create_date) {
-                this.formErrors.create_date = 'Date is required';
+            if (!this.formData.date) {
+                this.formErrors.date = 'Date is required';
             }
             if (!this.formData.category) {
                 this.formErrors.category = 'Category is required';
@@ -95,7 +95,7 @@ export default {
                 this.formErrors.amount = 'Amount is required';
             }
 
-            if (this.formErrors.create_date || this.formErrors.category || this.formErrors.amount) {
+            if (this.formErrors.date || this.formErrors.category || this.formErrors.amount) {
                 return;
             }
 
@@ -113,7 +113,7 @@ export default {
                 }
 
                 alert('Expense added successfully');
-                this.formData = { create_date: '', category: '', amount: null, note: '' };
+                this.formData = { date: '', category: '', amount: null, note: '' };
             } catch (error) {
                 console.error(error);
                 alert('An error occurred while adding the expense');

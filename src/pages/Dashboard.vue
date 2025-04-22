@@ -3,7 +3,7 @@ import ExpenseTable from '../components/ExpenseTable.vue';
 import Navbar from '../components/Navbar.vue';
 import BalanceSummary from '../components/BalanceSummary.vue';
 import MonthlyBreakdown from '../components/MonthlyBreakdown.vue';
-import { deleteExpense } from '../utils/expenseUtils';
+import { deleteExpense, editExpense } from '../utils/expenseUtils';
 
 export default {
   components: {
@@ -37,6 +37,11 @@ export default {
     },
     async deleteExpenseHandler(id) {
       await deleteExpense(id, this.expenses, updatedExpenses => {
+        this.expenses = updatedExpenses;
+      });
+    },
+    async editExpenseHandler(id, updatedData) {
+      await editExpense(id, updatedData, this.expenses, updatedExpenses => {
         this.expenses = updatedExpenses;
       });
     },
@@ -81,7 +86,7 @@ export default {
     <!-- Expense List -->
     <div class="mt-8 border border-gray-200 bg-white p-6 rounded-xl shadow-sm">
       <h1 class="text-2xl font-bold mb-4">Expense List</h1>
-      <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" />
+      <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" :onEditExpense="editExpenseHandler" />
     </div>
   </div>
 </template>

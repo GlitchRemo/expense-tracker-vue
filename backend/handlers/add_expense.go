@@ -9,7 +9,7 @@ import (
 )
 
 type AddExpenseRequest struct {
-	Date     string         `json:"create_date"`
+	Date     string         `json:"date"`
 	Category types.Category `json:"category"`
 	Amount   int            `json:"amount"`
 	Note     string         `json:"note"`

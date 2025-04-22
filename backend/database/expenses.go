@@ -57,3 +57,12 @@ func DeleteExpense(id int) error {
 	}
 	return err
 }
+
+func UpdateExpense(expense types.MonthlyBreakdown) error {
+	query := `UPDATE expenses SET create_date = $1, category = $2, amount = $3, note = $4 WHERE id = $5`
+	_, err := db.Exec(query, expense.Date, expense.Category, expense.Amount, expense.Note, expense.ID)
+	if err != nil {
+		log.Printf("Error updating expense with id %d: %v", expense.ID, err)
+	}
+	return err
+}
