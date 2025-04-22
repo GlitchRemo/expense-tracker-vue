@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"expense-tracker/database"
 	"expense-tracker/types"
-
-	"github.com/jmoiron/sqlx"
 )
 
 type AddExpenseRequest struct {
@@ -16,23 +15,30 @@ type AddExpenseRequest struct {
 	Note     string         `json:"note"`
 }
 
-func AddExpenseHandler(db *sqlx.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		var req AddExpenseRequest
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			http.Error(w, "Invalid request payload", http.StatusBadRequest)
-			return
-		}
-
-		query := `INSERT INTO expenses (create_date, category, amount, note) VALUES ($1, $2, $3, $4)`
-		_, err := db.Exec(query, req.Date, req.Category, req.Amount, req.Note)
-		if err != nil {
-			println("Error inserting expense:", err.Error())
-			http.Error(w, "Failed to add expense", http.StatusInternalServerError)
-			return
-		}
-
-		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte("Expense added successfully"))
+func AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
+	var req AddExpenseRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
 	}
+
+	if req.Amount <= 0 {
+		http.Error(w, "Amount must be greater than zero", http.StatusBadRequest)
+		return
+	}
+
+	err := database.AddExpense(types.MonthlyBreakdown{
+		Date:     req.Date,
+		Category: req.Category,
+		Amount:   req.Amount,
+		Note:     req.Note,
+	})
+	if err != nil {
+		http.Error(w, "Failed to add expense", http.StatusInternalServerError)
+		return
+	}
+
+	response := map[string]string{"message": "Expense added successfully"}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }

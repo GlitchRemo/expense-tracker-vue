@@ -35,6 +35,6 @@ func main() {
 
 	handler := c.Handler(http.DefaultServeMux)
 	http.HandleFunc("/api/dashboard", handlers.DashboardHandler)
-	http.HandleFunc("/api/expense", handlers.AddExpenseHandler(database.GetDB()))
+	http.HandleFunc("/api/expense", handlers.AddExpenseHandler)
 	http.ListenAndServe(":8080", handler)
 }

@@ -39,3 +39,12 @@ func GetExpenses() ([]types.MonthlyBreakdown, error) {
 
 	return expenses, nil
 }
+
+func AddExpense(expense types.MonthlyBreakdown) error {
+	query := `INSERT INTO expenses (create_date, category, amount, note) VALUES ($1, $2, $3, $4)`
+	_, err := db.Exec(query, expense.Date, expense.Category, expense.Amount, expense.Note)
+	if err != nil {
+		log.Printf("Error adding expense: %v", err)
+	}
+	return err
+}
