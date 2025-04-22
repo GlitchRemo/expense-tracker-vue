@@ -33,6 +33,7 @@ func AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
 		Amount:   req.Amount,
 		Note:     req.Note,
 	})
+	
 	if err != nil {
 		http.Error(w, "Failed to add expense", http.StatusInternalServerError)
 		return

@@ -3,6 +3,7 @@ import ExpenseTable from '../components/ExpenseTable.vue';
 import Navbar from '../components/Navbar.vue';
 import BalanceSummary from '../components/BalanceSummary.vue';
 import MonthlyBreakdown from '../components/MonthlyBreakdown.vue';
+import { deleteExpense } from '../utils/expenseUtils';
 
 export default {
   components: {
@@ -34,6 +35,11 @@ export default {
         console.error('Error fetching dashboard data:', error);
       }
     },
+    async deleteExpenseHandler(id) {
+      await deleteExpense(id, this.expenses, updatedExpenses => {
+        this.expenses = updatedExpenses;
+      });
+    },
   },
   created() {
     this.fetchDashboardData();
@@ -49,7 +55,7 @@ export default {
     <!-- Greeting and Add Button -->
     <div class="flex justify-between items-start mb-4">
       <div>
-        <h1 class="text-2xl font-bold text-gray-800">Hi, Riya 👋</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Hello, Riya! 👋</h1>
         <p class="text-gray-600">Welcome back: Here’s your expense summary:</p>
       </div>
       <button @click="navigateToAddExpense"
@@ -75,7 +81,7 @@ export default {
     <!-- Expense List -->
     <div class="mt-8 border border-gray-200 bg-white p-6 rounded-xl shadow-sm">
       <h1 class="text-2xl font-bold mb-4">Expense List</h1>
-      <ExpenseTable :expenses="expenses" />
+      <ExpenseTable :expenses="expenses" :onDeleteExpense="deleteExpenseHandler" />
     </div>
   </div>
 </template>

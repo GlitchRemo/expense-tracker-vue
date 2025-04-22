@@ -35,6 +35,15 @@ func main() {
 
 	handler := c.Handler(http.DefaultServeMux)
 	http.HandleFunc("/api/dashboard", handlers.DashboardHandler)
-	http.HandleFunc("/api/expense", handlers.AddExpenseHandler)
+	http.HandleFunc("/api/expense", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			handlers.AddExpenseHandler(w, r)
+		case http.MethodDelete:
+			handlers.DeleteExpenseHandler(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
 	http.ListenAndServe(":8080", handler)
 }

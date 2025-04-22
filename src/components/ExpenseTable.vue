@@ -27,7 +27,7 @@
             <button class="text-blue-600 hover:underline">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="text-red-600 hover:underline">
+            <button class="text-red-600 hover:underline" @click="deleteExpense(item.id)">
               <i class="fas fa-trash"></i>
             </button>
           </td>
@@ -41,11 +41,22 @@
 export default {
   name: 'ExpenseTable',
   props: {
-    expenses: {
-      type: Array,
-      required: true,
+        expenses: {
+            type: Array,
+            required: true,
+        },
+        onDeleteExpense: {
+            type: Function,
+            required: false,
+        },
     },
-  },
+    methods: {
+        deleteExpense(id) {
+            if (this.onDeleteExpense) {
+                this.onDeleteExpense(id);
+            }
+        },
+    },
 };
 </script>
 

@@ -7,7 +7,7 @@ import (
 )
 
 func GetExpenses() ([]types.MonthlyBreakdown, error) {
-	rows, err := db.Query("SELECT create_date, category, amount, note FROM expenses")
+	rows, err := db.Query("SELECT id, create_date, category, amount, note FROM expenses")
 	if err != nil {
 		log.Printf("Error querying expenses: %v", err)
 		return nil, err
@@ -17,7 +17,7 @@ func GetExpenses() ([]types.MonthlyBreakdown, error) {
 	var expenses []types.MonthlyBreakdown
 	for rows.Next() {
 		var expense types.MonthlyBreakdown
-		if err := rows.Scan(&expense.Date, &expense.Category, &expense.Amount, &expense.Note); err != nil {
+		if err := rows.Scan(&expense.ID, &expense.Date, &expense.Category, &expense.Amount, &expense.Note); err != nil {
 			log.Printf("Error scanning row: %v", err)
 			return nil, err
 		}
@@ -45,6 +45,15 @@ func AddExpense(expense types.MonthlyBreakdown) error {
 	_, err := db.Exec(query, expense.Date, expense.Category, expense.Amount, expense.Note)
 	if err != nil {
 		log.Printf("Error adding expense: %v", err)
+	}
+	return err
+}
+
+func DeleteExpense(id int) error {
+	query := `DELETE FROM expenses WHERE id = $1`
+	_, err := db.Exec(query, id)
+	if err != nil {
+		log.Printf("Error deleting expense with id %d: %v", id, err)
 	}
 	return err
 }
