@@ -27,9 +27,16 @@ export default {
             required: true,
         },
     },
+    watch: {
+        totalIncome: "drawPieChart",
+        totalExpenses: "drawPieChart",
+    },
     methods: {
         drawPieChart() {
-            new Chart(this.$refs.pieChart, {
+            if (this.chartInstance) {
+                this.chartInstance.destroy();
+            }
+            this.chartInstance = new Chart(this.$refs.pieChart, {
                 type: 'pie',
                 data: {
                     labels: ['Income', 'Expenses'],

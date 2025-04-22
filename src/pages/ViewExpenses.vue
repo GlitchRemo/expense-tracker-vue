@@ -13,13 +13,7 @@ export default {
   name: 'ExpenseList',
   data() {
     return {
-      expenses: [
-        { date: '2025-04-18', category: 'Groceries', amount: 1200, note: 'This is a note for the expense' },
-        { date: '2025-04-19', category: 'Transport', amount: 400, note: 'This is a note for the expense' },
-        { date: '2025-04-20', category: 'Utilities', amount: 800, note: 'This is a note for the expense' },
-        { date: '2025-04-21', category: 'Dining', amount: 500, note: 'This is a note for the expense' },
-        { date: '2025-04-20', category: 'Dining', amount: 1000, note: 'This is a note for the expense' },
-      ],
+      expenses: [],
       categoryColors: {
         Groceries: '#f87171', // Red
         Transport: '#60a5fa', // Blue
@@ -29,38 +23,60 @@ export default {
     };
   },
 
-  mounted() {
-    const categorySums = {};
-    this.expenses.forEach(exp => {
-      categorySums[exp.category] = (categorySums[exp.category] || 0) + exp.amount;
-    });
+  methods: {
+    async fetchExpenses() {
+      try {
+        const response = await fetch('http://localhost:8080/api/dashboard');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        this.expenses = data.monthlyBreakdown;
 
-    const categories = Object.keys(categorySums);
-    const values = Object.values(categorySums);
-    const colors = categories.map(cat => this.categoryColors[cat] || '#ccc');
+        // Render the pie chart after data is fetched
+        this.renderPieChart();
+      } catch (error) {
+        console.error('Error fetching expenses:', error);
+      }
+    },
+    
+    renderPieChart() {
+      const categorySums = {};
+      this.expenses.forEach(exp => {
+        categorySums[exp.category] = (categorySums[exp.category] || 0) + exp.amount;
+      });
 
-    new Chart(this.$refs.expenseChart, {
-      type: 'pie',
-      data: {
-        labels: categories,
-        datasets: [
-          {
-            data: values,
-            backgroundColor: colors,
-            borderWidth: 1,
-            hoverOffset: 10,
-          },
-        ],
-      },
-      options: {
-        responsive: false,
-        plugins: {
-          legend: {
-            display: false, // disable built-in legend
+      const categories = Object.keys(categorySums);
+      const values = Object.values(categorySums);
+      const colors = categories.map(cat => this.categoryColors[cat] || '#ccc');
+
+      new Chart(this.$refs.expenseChart, {
+        type: 'pie',
+        data: {
+          labels: categories,
+          datasets: [
+            {
+              data: values,
+              backgroundColor: colors,
+              borderWidth: 1,
+              hoverOffset: 10,
+            },
+          ],
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            legend: {
+              display: false, // disable built-in legend
+            },
           },
         },
-      },
-    });
+      });
+    },
+  },
+
+  created() {
+    this.fetchExpenses();
   },
 };
 </script>

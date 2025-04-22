@@ -14,21 +14,29 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      expenses: [
-        { date: '2025-04-18', category: 'Groceries', amount: 1200, note: 'This is a note for the expense' },
-        { date: '2025-04-19', category: 'Transport', amount: 400, note: 'This is a note for the expense' },
-        { date: '2025-04-20', category: 'Utilities', amount: 800, note: 'This is a note for the expense' },
-        { date: '2025-04-21', category: 'Dining', amount: 500, note: 'This is a note for the expense' },
-        { date: '2025-04-20', category: 'Dining', amount: 1000, note: 'This is a note for the expense' },
-      ],
-      totalIncome: 10000,
-      totalExpenses: 5000,
+      expenses: [],
+      totalIncome: 0,
+      totalExpenses: 0,
     };
   },
   methods: {
     navigateToAddExpense() {
       this.$router.push('/add-expense');
     },
+    async fetchDashboardData() {
+      try {
+        const response = await fetch('http://localhost:8080/api/dashboard');
+        const data = await response.json();
+        this.expenses = data.monthlyBreakdown;
+        this.totalIncome = data.totalIncome;
+        this.totalExpenses = data.totalExpenses;
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    },
+  },
+  created() {
+    this.fetchDashboardData();
   },
 };
 </script>
