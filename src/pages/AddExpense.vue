@@ -22,7 +22,7 @@
           <option>Groceries</option>
           <option>Transport</option>
           <option>Utilities</option>
-          <option>Entertainment</option>
+          <option>Dining</option>
         </select>
       </div>
 

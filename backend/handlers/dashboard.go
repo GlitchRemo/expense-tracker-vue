@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"expense-tracker/database"
 	"expense-tracker/types"
 )
 
@@ -15,15 +16,16 @@ var Categories = types.Categories{
 }
 
 func DashboardHandler(w http.ResponseWriter, r *http.Request) {
+	expenses, err := database.GetExpenses()
+	if err != nil {
+		http.Error(w, "Failed to fetch expenses", http.StatusInternalServerError)
+		return
+	}
+
 	data := types.DashboardData{
-		TotalIncome:   5000,
-		TotalExpenses: 2000,
-		MonthlyBreakdown: []types.MonthlyBreakdown{
-			{Date: "2023-01-01", Category: Categories.Groceries, Amount: 400, Note: "This is a note for the expense"},
-			{Date: "2023-01-01", Category: Categories.Transport, Amount: 400, Note: "This is a note for the expense"},
-			{Date: "2023-02-01", Category: Categories.Utilities, Amount: 300, Note: "This is a note for the expense"},
-			{Date: "2023-03-01", Category: Categories.Dining, Amount: 500, Note: "This is a note for the expense"},
-		},
+		TotalIncome:      5000, // Placeholder, can be fetched from DB if needed
+		TotalExpenses:    2000, // Placeholder, can be calculated from expenses
+		MonthlyBreakdown: expenses,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

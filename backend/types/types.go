@@ -10,7 +10,7 @@ type Categories struct {
 }
 
 type MonthlyBreakdown struct {
-	Date     string   `json:"date"`
+	Date     string   `json:"date" db:"create_date"`
 	Category Category `json:"category"`
 	Amount   int      `json:"amount"`
 	Note     string   `json:"note"`
