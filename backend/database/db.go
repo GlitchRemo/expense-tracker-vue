@@ -1,18 +1,18 @@
 package database
 
 import (
-	"database/sql"
 	"log"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var db *sqlx.DB
 
 func InitDB() {
 	var err error
 	connStr := "user=riya password=riyaghosalrg@123 dbname=myappdb sslmode=disable"
-	db, err = sql.Open("postgres", connStr)
+	db, err = sqlx.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}
@@ -29,4 +29,8 @@ func CloseDB() {
 		db.Close()
 		log.Println("Database connection closed")
 	}
+}
+
+func GetDB() *sqlx.DB {
+	return db
 }

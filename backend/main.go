@@ -1,8 +1,8 @@
 package main
 
 import (
-	"expense-tracker/handlers"
 	"expense-tracker/database"
+	"expense-tracker/handlers"
 	"log"
 	"net/http"
 	"os"
@@ -35,5 +35,6 @@ func main() {
 
 	handler := c.Handler(http.DefaultServeMux)
 	http.HandleFunc("/api/dashboard", handlers.DashboardHandler)
+	http.HandleFunc("/api/expense", handlers.AddExpenseHandler(database.GetDB()))
 	http.ListenAndServe(":8080", handler)
 }
