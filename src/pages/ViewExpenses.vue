@@ -14,6 +14,7 @@ export default {
   name: 'ExpenseList',
   data() {
     return {
+      id: localStorage.getItem('userId') || null,
       expenses: [],
       categoryColors: {
         Groceries: '#f87171', // Red
@@ -27,7 +28,7 @@ export default {
   methods: {
     async fetchExpenses() {
       try {
-        const response = await fetch('http://localhost:8080/api/dashboard');
+        const response = await fetch(`http://localhost:8080/api/dashboard?userID=${this.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
