@@ -15,6 +15,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      id: 1,
       expenses: [],
       totalIncome: 0,
       totalExpenses: 0,
@@ -26,7 +27,7 @@ export default {
     },
     async fetchDashboardData() {
       try {
-        const response = await fetch('http://localhost:8080/api/dashboard');
+        const response = await fetch(`http://localhost:8080/api/dashboard?userID=${this.id}`);
         const data = await response.json();
         this.expenses = data.monthlyBreakdown;
         this.totalIncome = data.totalIncome;

@@ -18,7 +18,7 @@ type MonthlyBreakdown struct {
 }
 
 type DashboardData struct {
-	TotalIncome      int                `json:"totalIncome"`
-	TotalExpenses    int                `json:"totalExpenses"`
+	TotalIncome      float64                `json:"totalIncome"`
+	TotalExpenses    float64             `json:"totalExpenses"`
 	MonthlyBreakdown []MonthlyBreakdown `json:"monthlyBreakdown"`
 }
