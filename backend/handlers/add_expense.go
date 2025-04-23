@@ -13,6 +13,7 @@ type AddExpenseRequest struct {
 	Category types.Category `json:"category"`
 	Amount   int            `json:"amount"`
 	Note     string         `json:"note"`
+	UserID   int            `json:"userId"`
 }
 
 func AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
@@ -32,8 +33,9 @@ func AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
 		Category: req.Category,
 		Amount:   req.Amount,
 		Note:     req.Note,
+		UserID:   req.UserID,
 	})
-	
+
 	if err != nil {
 		http.Error(w, "Failed to add expense", http.StatusInternalServerError)
 		return

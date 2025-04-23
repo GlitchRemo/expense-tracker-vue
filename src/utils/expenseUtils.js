@@ -22,13 +22,14 @@ export async function deleteExpense(id, expenses, updateExpenses) {
 }
 
 export async function addExpense(newExpense) {
+    const userId = parseInt(localStorage.getItem('userId'));
     try {
-        const response = await fetch('http://localhost:8080/api/expense', {
+        const response = await fetch(`http://localhost:8080/api/expense`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(newExpense),
+            body: JSON.stringify({ ...newExpense, userId }),
         });
 
         if (!response.ok) {

@@ -15,6 +15,7 @@ type MonthlyBreakdown struct {
 	Category Category `json:"category"`
 	Amount   int      `json:"amount"`
 	Note     string   `json:"note"`
+	UserID   int      `json:"userId" db:"user_id"`
 }
 
 type DashboardData struct {

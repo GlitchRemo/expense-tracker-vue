@@ -82,7 +82,8 @@ export default {
         date: '',
         category: '',
         amount: null,
-        note: ''
+        note: '',
+        userId: localStorage.getItem('userId') || null,
       },
       formErrors: {
         date: '',
@@ -133,7 +134,7 @@ export default {
         this.$emit('edit-expense', this.formData); // Emit the event after editing
       } else {
         await addExpense(this.formData);
-        this.formData = { date: '', category: '', amount: null, note: '' };
+        this.formData = { date: '', category: '', amount: null, note: '', userId: this.formData.userId };
         this.formErrors = { date: '', category: '', amount: '' };
         this.$router.push('/'); // Redirect to dashboard after adding expense
       }

@@ -7,7 +7,7 @@ import (
 )
 
 func GetExpenses(id int) ([]types.MonthlyBreakdown, error) {
-	rows, err := db.Query("SELECT id, create_date, category, amount, note FROM expenses WHERE user_id = $1 ORDER BY create_date DESC", id)
+	rows, err := db.Query("SELECT id, create_date, category, amount, note, user_id FROM expenses WHERE user_id = $1 ORDER BY create_date DESC", id)
 	if err != nil {
 		log.Printf("Error querying expenses: %v", err)
 		return nil, err
@@ -17,7 +17,7 @@ func GetExpenses(id int) ([]types.MonthlyBreakdown, error) {
 	var expenses []types.MonthlyBreakdown
 	for rows.Next() {
 		var expense types.MonthlyBreakdown
-		if err := rows.Scan(&expense.ID, &expense.Date, &expense.Category, &expense.Amount, &expense.Note); err != nil {
+		if err := rows.Scan(&expense.ID, &expense.Date, &expense.Category, &expense.Amount, &expense.Note, &expense.UserID); err != nil {
 			log.Printf("Error scanning row: %v", err)
 			return nil, err
 		}
@@ -41,8 +41,8 @@ func GetExpenses(id int) ([]types.MonthlyBreakdown, error) {
 }
 
 func AddExpense(expense types.MonthlyBreakdown) error {
-	query := `INSERT INTO expenses (create_date, category, amount, note) VALUES ($1, $2, $3, $4)`
-	_, err := db.Exec(query, expense.Date, expense.Category, expense.Amount, expense.Note)
+	query := `INSERT INTO expenses (create_date, category, amount, note, user_id) VALUES ($1, $2, $3, $4, $5)`
+	_, err := db.Exec(query, expense.Date, expense.Category, expense.Amount, expense.Note, expense.UserID)
 	if err != nil {
 		log.Printf("Error adding expense: %v", err)
 	}
