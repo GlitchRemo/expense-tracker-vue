@@ -15,7 +15,8 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      id: 1,
+      id: localStorage.getItem('userId') || null,
+      username: localStorage.getItem('username') || '',
       expenses: [],
       totalIncome: 0,
       totalExpenses: 0,
@@ -51,7 +52,7 @@ export default {
     },
   },
   created() {
-    this.fetchDashboardData();
+      this.fetchDashboardData();
   },
 };
 </script>

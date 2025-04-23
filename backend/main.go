@@ -47,5 +47,6 @@ func main() {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
 	})
+	http.HandleFunc("/api/auth/login", handlers.LoginHandler)
 	http.ListenAndServe(":8080", handler)
 }
