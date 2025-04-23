@@ -64,7 +64,11 @@
           const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: this.username, password: this.password })
+            body: JSON.stringify({ 
+              username: this.username, 
+              password: this.password, 
+              ...(this.mode === 'register' && { totalIncome: this.totalIncome }) 
+            })
           });
   
           if (!response.ok) throw await response.json();
@@ -88,4 +92,3 @@
     font-family: 'Inter', 'Segoe UI', sans-serif;
   }
   </style>
-  

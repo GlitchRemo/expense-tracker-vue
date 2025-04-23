@@ -39,7 +39,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Fetch expenses (existing functionality)
-	expenses, err := database.GetExpenses()
+	expenses, err := database.GetExpenses(id)
 	if err != nil {
 		http.Error(w, "Failed to fetch expenses", http.StatusInternalServerError)
 		return

@@ -45,3 +45,34 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
+
+type RegisterRequest struct {
+	Username    string  `json:"username"`
+	Password    string  `json:"password"`
+	TotalIncome float64 `json:"totalIncome"`
+}
+
+func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+	var req RegisterRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
+	}
+
+	db := database.GetDB()
+	query := `INSERT INTO users (username, password, total_income) VALUES ($1, $2, $3) RETURNING id`
+	var userID int
+	err := db.QueryRow(query, req.Username, req.Password, req.TotalIncome).Scan(&userID)
+	if err != nil {
+		http.Error(w, "Failed to register user", http.StatusInternalServerError)
+		return
+	}
+
+	response := AuthResponse{
+		UserID:   userID,
+		Username: req.Username,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}

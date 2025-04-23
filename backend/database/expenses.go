@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-func GetExpenses() ([]types.MonthlyBreakdown, error) {
-	rows, err := db.Query("SELECT id, create_date, category, amount, note FROM expenses ORDER BY create_date DESC")
+func GetExpenses(id int) ([]types.MonthlyBreakdown, error) {
+	rows, err := db.Query("SELECT id, create_date, category, amount, note FROM expenses WHERE user_id = $1 ORDER BY create_date DESC", id)
 	if err != nil {
 		log.Printf("Error querying expenses: %v", err)
 		return nil, err

@@ -48,5 +48,6 @@ func main() {
 		}
 	})
 	http.HandleFunc("/api/auth/login", handlers.LoginHandler)
+	http.HandleFunc("/api/auth/register", handlers.RegisterHandler)
 	http.ListenAndServe(":8080", handler)
 }
