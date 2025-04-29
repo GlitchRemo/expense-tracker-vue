@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -18,6 +19,7 @@ var Categories = types.Categories{
 
 func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract userID from request (assuming it's passed as a query parameter for simplicity)
+	fmt.Println("DashboardHandler called", r.URL.Query())
 	userID := r.URL.Query().Get("userID")
 	if userID == "" {
 		http.Error(w, "userID is required", http.StatusBadRequest)
@@ -32,8 +34,10 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Fetch total income and expense using the database function
+	fmt.Println("calling to database.GetUserIncomeAndExpense")
 	totalIncome, totalExpense, err := database.GetUserIncomeAndExpense(id)
 	if err != nil {
+		fmt.Println("Error fetching user income and expense:", err)
 		http.Error(w, "Failed to fetch user income and expense", http.StatusInternalServerError)
 		return
 	}
