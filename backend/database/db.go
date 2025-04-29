@@ -59,7 +59,6 @@ func createExpensesTable() error {
 			category VARCHAR(50) NOT NULL,
 			create_date DATE DEFAULT CURRENT_DATE,
 			note VARCHAR(50) NOT NULL,
-			FOREIGN KEY (user_id) REFERENCES users(id)
 		)
 	`
 
