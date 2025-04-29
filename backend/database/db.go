@@ -10,7 +10,9 @@ import (
 var db *sqlx.DB
 
 func InitDB() {
+	log.Println("Initializing database connection...")
 	var err error
+	log.Println("Initializing database connection...")
 	connStr := "host=172.17.0.1 user=riya password=riyaghosalrg@123 dbname=myappdb sslmode=disable"
 	db, err = sqlx.Open("postgres", connStr)
 	if err != nil {

@@ -13,7 +13,9 @@ import (
 )
 
 func main() {
+	log.Println("before db init")
 	database.InitDB()
+	log.Println("after db init")
 	defer database.CloseDB()
 
 	// Graceful shutdown handling
@@ -34,6 +36,8 @@ func main() {
 	})
 
 	handler := c.Handler(http.DefaultServeMux)
+	log.Println("before handler call")
+
 	http.HandleFunc("/api/dashboard", handlers.DashboardHandler)
 	http.HandleFunc("/api/expense", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
