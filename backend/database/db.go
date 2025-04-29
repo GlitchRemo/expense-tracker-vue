@@ -11,7 +11,7 @@ var db *sqlx.DB
 
 func InitDB() {
 	var err error
-	connStr := "user=riya password=riyaghosalrg@123 dbname=myappdb sslmode=disable"
+	connStr := "host=172.17.0.1 user=riya password=riyaghosalrg@123 dbname=myappdb sslmode=disable"
 	db, err = sqlx.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
