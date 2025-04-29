@@ -24,12 +24,12 @@ func InitDB() {
 
 	err = createUsersTable()
 	if err != nil {
-		log.Fatal("error while creating the users table")
+		log.Fatal("error while creating the users table", err)
 	}
 
 	err = createExpensesTable()
 	if err != nil {
-		log.Fatal("error while creating the expenses table")
+		log.Fatal("error while creating the expenses table", err)
 	}
 
 	log.Println("Database connection established")
@@ -59,7 +59,7 @@ func createExpensesTable() error {
 			category VARCHAR(50) NOT NULL,
 			create_date DATE DEFAULT CURRENT_DATE,
 			note VARCHAR(50) NOT NULL,
-			FOREIGN KEY (user_id) REFERENCES users(id),
+			FOREIGN KEY (user_id) REFERENCES users(id)
 		)
 	`
 
