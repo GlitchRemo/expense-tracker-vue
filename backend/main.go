@@ -38,6 +38,9 @@ func main() {
 	handler := c.Handler(http.DefaultServeMux)
 	log.Println("before handler call")
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Welcome to the Expense Tracker API!"))
+	})
 	http.HandleFunc("/api/dashboard", handlers.DashboardHandler)
 	http.HandleFunc("/api/expense", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
