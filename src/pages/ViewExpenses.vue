@@ -28,7 +28,7 @@ export default {
   methods: {
     async fetchExpenses() {
       try {
-        const response = await fetch(`http://localhost:8080/api/dashboard?userID=${this.id}`);
+        const response = await fetch(`http://56.228.42.208:8080/api/dashboard?userID=${this.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

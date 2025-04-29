@@ -4,7 +4,7 @@ export async function deleteExpense(id, expenses, updateExpenses) {
     }
 
     try {
-        const response = await fetch(`http://localhost:8080/api/expense?id=${id}`, {
+        const response = await fetch(`http://56.228.42.208:8080/api/expense?id=${id}`, {
             method: 'DELETE',
         });
 
@@ -24,7 +24,7 @@ export async function deleteExpense(id, expenses, updateExpenses) {
 export async function addExpense(newExpense) {
     const userId = parseInt(localStorage.getItem('userId'));
     try {
-        const response = await fetch(`http://localhost:8080/api/expense`, {
+        const response = await fetch(`http://56.228.42.208:8080/api/expense`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export async function addExpense(newExpense) {
 
 export async function editExpense(id, updatedData, expenses) {
     try {
-        const response = await fetch(`http://localhost:8080/api/expense?id=${id}`, {
+        const response = await fetch(`http://56.228.42.208:8080/api/expense?id=${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

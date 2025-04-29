@@ -57,8 +57,8 @@
     methods: {
       async handleSubmit() {
         const endpoint = this.mode === 'login'
-          ? 'http://localhost:8080/api/auth/login'
-          : 'http://localhost:8080/api/auth/register';
+          ? 'http://56.228.42.208:8080/api/auth/login'
+          : 'http://56.228.42.208:8080/api/auth/register';
   
         try {
           const response = await fetch(endpoint, {
