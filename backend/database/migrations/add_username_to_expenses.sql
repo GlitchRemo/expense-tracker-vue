@@ -1,3 +1,0 @@
-ALTER TABLE expenses
-ADD COLUMN username VARCHAR(255) NOT NULL,
-ADD CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE;
