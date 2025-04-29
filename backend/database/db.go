@@ -37,12 +37,13 @@ func InitDB() {
 
 func createUsersTable() error {
 	createTableQuery := `
-		CREATE TABLE IF NOT EXISTS users (
-			id SERIAL PRIMARY KEY,
-			username VARCHAR(50) NOT NULL,
-			total_income FLOAT DEFAULT 0,
-			password VARCHAR(50) NOT NULL
-		)
+		CREATE TABLE IF NOT EXISTS users(
+    		id SERIAL NOT NULL,
+    		username varchar(50) NOT NULL,
+    		total_income double precision DEFAULT 0,
+    		password varchar(50) NOT NULL,
+    		PRIMARY KEY(id)
+		);
 	`
 
 	_, err := db.Exec(createTableQuery)
@@ -54,14 +55,16 @@ func createUsersTable() error {
 }
 func createExpensesTable() error {
 	createTableQuery := `
-		CREATE TABLE IF NOT EXISTS expenses (
-			id SERIAL PRIMARY KEY,
-			category VARCHAR(50) NOT NULL,
-			create_date DATE DEFAULT CURRENT_DATE,
-            amount INT NOT NULL,
-			user_id INT NOT NULL,
-			FOREIGN KEY (user_id) REFERENCES users(id)
-		)
+		CREATE TABLE IF NOT EXISTS expenses(
+    		id SERIAL NOT NULL,
+    		category varchar(50) NOT NULL,
+    		create_date date DEFAULT CURRENT_DATE,
+    		amount integer NOT NULL,
+    		note varchar(255),
+    		user_id integer NOT NULL,
+    		PRIMARY KEY(id),
+    		CONSTRAINT expenses_user_id_fkey FOREIGN key(user_id) REFERENCES users(id)
+		);
 	`
 
 	_, err := db.Exec(createTableQuery)
