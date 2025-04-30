@@ -68,7 +68,7 @@ export default {
     <!-- Greeting and Add Button -->
     <div class="flex justify-between items-start mb-4">
       <div>
-        <h1 class="text-2xl font-bold text-gray-800">Hello, Riya! 👋</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Hello, {{username}}! 👋</h1>
         <p class="text-gray-600">Welcome back: Here’s your expense summary:</p>
       </div>
       <button @click="navigateToAddExpense"
