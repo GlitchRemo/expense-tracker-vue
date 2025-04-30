@@ -1,5 +1,5 @@
 <template>
-  <div :class="expenseToEdit ? 'p-0' : 'p-2 bg-gray-50 lg:p-6 mx-0 lg:mx-64 w-min md:w-auto'">
+  <div :class="expenseToEdit ? 'p-0' : 'p-2 bg-gray-50 lg:p-6 mx-0 lg:mx-64 md:w-auto'">
     <!-- Navbar -->
     <Navbar v-if="!expenseToEdit" />
     <div class="add-expense max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md border border-gray-200">

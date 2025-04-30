@@ -77,7 +77,7 @@
   
           localStorage.setItem('userId', userId);
           localStorage.setItem('username', username);
-          this.$router.push('/');
+          this.$router.push('/dashboard');
         } catch (error) {
           this.errorMessage = error.message || 'Something went wrong';
         }
