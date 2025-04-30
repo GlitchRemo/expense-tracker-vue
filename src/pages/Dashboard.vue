@@ -28,7 +28,7 @@ export default {
     },
     async fetchDashboardData() {
       try {
-        const response = await fetch(`http://56.228.42.208:8080/api/dashboard?userID=${this.id}`);
+        const response = await fetch(`http://13.48.29.46:8080/api/dashboard?userID=${this.id}`);
         const data = await response.json();
         this.expenses = data.monthlyBreakdown;
         this.totalIncome = data.totalIncome;
