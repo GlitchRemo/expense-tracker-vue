@@ -136,7 +136,7 @@ export default {
         await addExpense(this.formData);
         this.formData = { date: '', category: '', amount: null, note: '', userId: this.formData.userId };
         this.formErrors = { date: '', category: '', amount: '' };
-        this.$router.push('/'); // Redirect to dashboard after adding expense
+        this.$router.push('/dashboard'); // Redirect to dashboard after adding expense
       }
     },
   },

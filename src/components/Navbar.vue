@@ -12,7 +12,7 @@ export default {
     name: 'Navbar',
     methods: {
         navigateToHome() {
-            this.$router.push('/');
+            this.$router.push('/dashboard');
         },
         logout() {
             // Clear localStorage and redirect to login page
