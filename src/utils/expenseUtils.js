@@ -14,7 +14,6 @@ export async function deleteExpense(id, expenses, updateExpenses) {
 
         const updatedExpenses = expenses.filter(item => item.id !== id);
         updateExpenses(updatedExpenses);
-        alert('Expense deleted successfully');
     } catch (error) {
         console.error('Error deleting expense:', error);
         alert('An error occurred while deleting the expense');
@@ -35,8 +34,6 @@ export async function addExpense(newExpense) {
         if (!response.ok) {
             throw new Error('Failed to add expense');
         }
-
-        alert('Expense added successfully');
     } catch (error) {
         console.error('Error adding expense:', error);
         alert('An error occurred while adding the expense');
@@ -60,7 +57,6 @@ export async function editExpense(id, updatedData, expenses) {
         const updatedExpenses = expenses.map(item =>
             item.id === id ? { ...item, ...updatedData } : item
         );
-        alert('Expense updated successfully');
 
         return updatedExpenses
     } catch (error) {
