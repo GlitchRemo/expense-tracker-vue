@@ -26,6 +26,9 @@ export default {
     navigateToAddExpense() {
       this.$router.push('/add-expense');
     },
+    navigateToViewExpenses() {
+      this.$router.push('/expenses');
+    },
     async fetchDashboardData() {
       try {
         const response = await fetch(`http://13.48.29.46:8080/api/dashboard?userID=${this.id}`);
@@ -84,7 +87,7 @@ export default {
     </div>
 
     <!-- View All Expenses Link -->
-    <a href="/expenses" class="text-blue-600 mt-4 block hover:underline">
+    <a class="text-blue-600 mt-4 block hover:underline" @click="navigateToViewExpenses">
       View All Expenses
     </a>
 
