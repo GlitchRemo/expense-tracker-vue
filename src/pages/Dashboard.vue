@@ -5,6 +5,9 @@ import BalanceSummary from '../components/BalanceSummary.vue';
 import MonthlyBreakdown from '../components/MonthlyBreakdown.vue';
 import { deleteExpense, editExpense } from '../utils/expenseUtils';
 
+const API_URL = import.meta.env.VITE_API_URL;
+console.log('API_URL:', API_URL);
+
 export default {
   components: {
     Navbar,
@@ -31,7 +34,7 @@ export default {
     },
     async fetchDashboardData() {
       try {
-        const response = await fetch(`http://13.48.29.46:8080/api/dashboard?userID=${this.id}`);
+        const response = await fetch(`${API_URL}/api/dashboard?userID=${this.id}`);
         const data = await response.json();
         this.expenses = data.monthlyBreakdown;
         this.totalIncome = data.totalIncome;

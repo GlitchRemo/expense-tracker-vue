@@ -1,10 +1,12 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function deleteExpense(id, expenses, updateExpenses) {
     if (!confirm('Are you sure you want to delete this expense?')) {
         return;
     }
 
     try {
-        const response = await fetch(`http://13.48.29.46:8080/api/expense?id=${id}`, {
+        const response = await fetch(`${API_URL}/api/expense?id=${id}`, {
             method: 'DELETE',
         });
 
@@ -23,7 +25,7 @@ export async function deleteExpense(id, expenses, updateExpenses) {
 export async function addExpense(newExpense) {
     const userId = parseInt(localStorage.getItem('userId'));
     try {
-        const response = await fetch(`http://13.48.29.46:8080/api/expense`, {
+        const response = await fetch(`${API_URL}/api/expense`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ export async function addExpense(newExpense) {
 
 export async function editExpense(id, updatedData, expenses) {
     try {
-        const response = await fetch(`http://13.48.29.46:8080/api/expense?id=${id}`, {
+        const response = await fetch(`${API_URL}/api/expense?id=${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

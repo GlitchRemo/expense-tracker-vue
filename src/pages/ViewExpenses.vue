@@ -4,6 +4,8 @@ import ExpenseTable from '../components/ExpenseTable.vue';
 import Navbar from '../components/Navbar.vue';
 import { deleteExpense, editExpense } from '../utils/expenseUtils';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 
 export default {
@@ -28,7 +30,7 @@ export default {
   methods: {
     async fetchExpenses() {
       try {
-        const response = await fetch(`http://13.48.29.46:8080/api/dashboard?userID=${this.id}`);
+        const response = await fetch(`${API_URL}/api/dashboard?userID=${this.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

@@ -45,6 +45,7 @@
   </template>
   
   <script>
+  const API_URL = import.meta.env.VITE_API_URL;
   export default {
     data() {
       return {
@@ -57,9 +58,9 @@
     methods: {
       async handleSubmit() {
         const endpoint = this.mode === 'login'
-          ? 'http://13.48.29.46:8080/api/auth/login'
-          : 'http://13.48.29.46:8080/api/auth/register';
-  
+          ? `${API_URL}/api/auth/login`
+          : `${API_URL}/api/auth/register`;
+
         try {
           const response = await fetch(endpoint, {
             method: 'POST',
