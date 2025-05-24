@@ -9,11 +9,11 @@ import (
 )
 
 type AddExpenseRequest struct {
-	Date     string         `json:"date"`
-	Category types.Category `json:"category"`
-	Amount   int            `json:"amount"`
-	Note     string         `json:"note"`
-	UserID   int            `json:"userId"`
+	Date       string `json:"date"`
+	CategoryID int    `json:"categoryId"`
+	Amount     int    `json:"amount"`
+	Note       string `json:"note"`
+	UserID     int    `json:"userId"`
 }
 
 func AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
@@ -29,11 +29,11 @@ func AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := database.AddExpense(types.MonthlyBreakdown{
-		Date:     req.Date,
-		Category: req.Category,
-		Amount:   req.Amount,
-		Note:     req.Note,
-		UserID:   req.UserID,
+		Date:       req.Date,
+		CategoryID: req.CategoryID,
+		Amount:     req.Amount,
+		Note:       req.Note,
+		UserID:     req.UserID,
 	})
 
 	if err != nil {

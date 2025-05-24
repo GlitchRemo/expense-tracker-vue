@@ -1,12 +1,12 @@
 package types
 
 type MonthlyBreakdown struct {
-	ID       int      `json:"id" db:"id"`
-	Date     string   `json:"date" db:"create_date"`
-	Category Category `json:"category"`
-	Amount   int      `json:"amount"`
-	Note     string   `json:"note"`
-	UserID   int      `json:"userId" db:"user_id"`
+	ID         int    `json:"id" db:"id"`
+	Date       string `json:"date" db:"create_date"`
+	CategoryID int    `json:"categoryId" db:"category_id"`
+	Amount     int    `json:"amount"`
+	Note       string `json:"note"`
+	UserID     int    `json:"userId" db:"user_id"`
 }
 
 type DashboardData struct {
