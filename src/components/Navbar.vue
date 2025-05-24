@@ -15,9 +15,9 @@ export default {
             this.$router.push('/dashboard');
         },
         logout() {
-            // Clear localStorage and redirect to login page
+            // Clear localStorage and redirect to homepage
             localStorage.clear();
-            this.$router.push('/login');
+            this.$router.push('/');
         },
     }
 }
