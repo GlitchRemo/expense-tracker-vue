@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,15 +10,8 @@ import (
 	"expense-tracker/types"
 )
 
-var Categories = types.Categories{
-	Groceries: "Groceries",
-	Transport: "Transport",
-	Utilities: "Utilities",
-	Dining:    "Dining",
-}
-
 func DashboardHandler(w http.ResponseWriter, r *http.Request) {
-	// Extract userID from request (assuming it's passed as a query parameter for simplicity)
+	// Extract userID from the request (assuming it's passed as a query parameter for simplicity)
 	fmt.Println("DashboardHandler called", r.URL.Query())
 	userID := r.URL.Query().Get("userID")
 	if userID == "" {
@@ -58,5 +51,5 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Send response
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	_ = json.NewEncoder(w).Encode(data)
 }

@@ -1,14 +1,5 @@
 package types
 
-type Category string
-
-type Categories struct {
-	Groceries Category
-	Transport Category
-	Utilities Category
-	Dining    Category
-}
-
 type MonthlyBreakdown struct {
 	ID       int      `json:"id" db:"id"`
 	Date     string   `json:"date" db:"create_date"`
@@ -19,7 +10,7 @@ type MonthlyBreakdown struct {
 }
 
 type DashboardData struct {
-	TotalIncome      float64                `json:"totalIncome"`
-	TotalExpenses    float64             `json:"totalExpenses"`
+	TotalIncome      float64            `json:"totalIncome"`
+	TotalExpenses    float64            `json:"totalExpenses"`
 	MonthlyBreakdown []MonthlyBreakdown `json:"monthlyBreakdown"`
 }

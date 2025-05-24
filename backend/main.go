@@ -2,7 +2,7 @@ package main
 
 import (
 	"expense-tracker/database"
-	"expense-tracker/handlers"
+	"expense-tracker/routes"
 	"log"
 	"net/http"
 	"os"
@@ -13,9 +13,7 @@ import (
 )
 
 func main() {
-	log.Println("before db init")
 	database.InitDB()
-	log.Println("after db init")
 	defer database.CloseDB()
 
 	// Graceful shutdown handling
@@ -35,24 +33,14 @@ func main() {
 		AllowedHeaders: []string{"Content-Type"},
 	})
 
-	handler := c.Handler(http.DefaultServeMux)
+	mux := routes.RegisterRoutes()
+
+	handler := c.Handler(mux)
 	log.Println("before handler call")
 
-
-	http.HandleFunc("/api/dashboard", handlers.DashboardHandler)
-	http.HandleFunc("/api/expense", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodPost:
-			handlers.AddExpenseHandler(w, r)
-		case http.MethodDelete:
-			handlers.DeleteExpenseHandler(w, r)
-		case http.MethodPut:
-			handlers.EditExpenseHandler(w, r)
-		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		}
-	})
-	http.HandleFunc("/api/auth/login", handlers.LoginHandler)
-	http.HandleFunc("/api/auth/register", handlers.RegisterHandler)
-	http.ListenAndServe(":8080", handler)
+	err := http.ListenAndServe(":8080", handler)
+	if err != nil {
+		log.Fatal(err, " - Error starting server")
+		return
+	}
 }
