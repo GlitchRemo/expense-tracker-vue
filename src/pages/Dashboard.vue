@@ -25,8 +25,8 @@ export default {
     };
   },
   methods: {
-    navigateToAddExpense() {
-      this.$router.push('/add-expense');
+    navigateToSelectCategory() {
+      this.$router.push('/select-category');
     },
     navigateToViewExpenses() {
       this.$router.push('/expenses');
@@ -73,7 +73,7 @@ export default {
         <h1 class="text-2xl font-bold text-gray-800">Hello, {{username}}! 👋</h1>
         <p class="text-gray-600">Welcome back: Here’s your expense summary:</p>
       </div>
-      <button @click="navigateToAddExpense"
+      <button @click="navigateToSelectCategory"
         class="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition">
         Add
       </button>

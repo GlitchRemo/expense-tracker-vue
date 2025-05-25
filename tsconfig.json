@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "esnext",              // Use latest ES target (can be ES2020, ES2022, or ESNext)
+    "module": "esnext",              // Module system supporting import.meta
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "DOM"],
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "env.d.ts"],
+  "exclude": ["node_modules"]
+}

@@ -9,21 +9,16 @@
         <div>
           <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
           <input type="date" id="date" v-model="formData.date"
-            class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                 class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
           <p v-if="formErrors.date" class="text-red-500 text-sm">{{ formErrors.date }}</p>
         </div>
 
-        <!-- Category Field -->
+        <!-- Category Display -->
         <div>
-          <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-          <select id="category" v-model="formData.category"
-            class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option disabled selected>Select a category</option>
-            <option>Groceries</option>
-            <option>Transport</option>
-            <option>Utilities</option>
-            <option>Dining</option>
-          </select>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+          <div class="p-2 border border-gray-300 rounded-md bg-gray-100">
+            {{ formData.categoryName || 'No category selected' }}
+          </div>
           <p v-if="formErrors.category" class="text-red-500 text-sm">{{ formErrors.category }}</p>
         </div>
 
@@ -31,7 +26,7 @@
         <div>
           <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
           <input type="number" id="amount" v-model="formData.amount"
-            class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                 class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
           <p v-if="formErrors.amount" class="text-red-500 text-sm">{{ formErrors.amount }}</p>
         </div>
 
@@ -39,13 +34,13 @@
         <div>
           <label for="note" class="block text-sm font-medium text-gray-700 mb-1">Note (optional)</label>
           <textarea id="note" v-model="formData.note" rows="3" placeholder="Add a description or note..."
-            class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
 
         <!-- Submit Button -->
         <div class="text-right">
           <button type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow">
+                  class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow">
             {{ expenseToEdit ? 'Edit Expense' : 'Add Expense' }}
           </button>
         </div>
@@ -57,10 +52,11 @@
 <script>
 import Navbar from '../components/Navbar.vue';
 import { addExpense, editExpense } from '../utils/expenseUtils';
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default {
-  components: {
-    Navbar,
-  },
+  components: { Navbar },
   name: 'AddExpense',
   props: {
     expenseToEdit: {
@@ -78,9 +74,11 @@ export default {
   },
   data() {
     return {
+      categories: [],
       formData: {
-        date: '',
-        category: '',
+        date: this.getTodayDate(),
+        categoryId: null,
+        categoryName: '',
         amount: null,
         note: '',
         userId: localStorage.getItem('userId') || null,
@@ -89,7 +87,7 @@ export default {
         date: '',
         category: '',
         amount: ''
-      }
+      },
     };
   },
   watch: {
@@ -97,46 +95,118 @@ export default {
       immediate: true,
       handler(newExpense) {
         if (newExpense) {
-          this.formData = { ...newExpense };
+          this.formData = {
+            ...newExpense,
+            categoryId: newExpense.categoryId,
+            categoryName: '', // will be set after categories load
+            date: newExpense.date || this.getTodayDate(),
+          };
+          this.setCategoryNameById(newExpense.categoryId);
         }
       },
     },
   },
+  mounted() {
+    this.fetchCategories();
+  },
   methods: {
+    getTodayDate() {
+      const today = new Date();
+      return today.toISOString().slice(0, 10);
+    },
+
+    async fetchCategories() {
+      try {
+        // Replace the URL below with your real API endpoint
+        const res = await fetch(`${API_URL}/api/categories`);
+        if (!res.ok) throw new Error('Failed to fetch categories');
+        this.categories = await res.json();
+
+        // If categoryId is present in route query, set it
+        const catId = Number(this.$route.query.categoryId);
+        if (catId) {
+          this.formData.categoryId = catId;
+          this.setCategoryNameById(catId);
+        }
+
+        // If editing expense and categoryName not set yet, set it
+        if (this.expenseToEdit && this.formData.categoryId) {
+          this.setCategoryNameById(this.formData.categoryId);
+        }
+
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    },
+
+    findCategoryById(categories, id) {
+      for (const category of categories) {
+        if (category.id === id) {
+          return category;
+        }
+        if (category.children && category.children.length > 0) {
+          const found = this.findCategoryById(category.children, id);
+          if (found) return found;
+        }
+      }
+      return null;
+    },
+
+    setCategoryNameById(id) {
+      const cat = this.findCategoryById(this.categories, id);
+      if (cat) {
+        this.formData.categoryName = cat.name;
+        this.formData.categoryId = cat.id;
+        this.formErrors.category = '';
+      } else {
+        this.formData.categoryName = '';
+        this.formErrors.category = 'Category not found';
+      }
+    },
+
     async submitForm() {
-      // Validate form data
       this.formErrors = { date: '', category: '', amount: '' };
 
       if (!this.formData.date) {
         this.formErrors.date = 'Date is required';
       }
-      if (!this.formData.category) {
+      if (!this.formData.categoryId) {
         this.formErrors.category = 'Category is required';
       }
-      if (this.formData.amount <= 0) {
+      if (!this.formData.amount || this.formData.amount <= 0) {
         this.formErrors.amount = 'Amount must be greater than zero';
-      }
-      if (!this.formData.amount) {
-        this.formErrors.amount = 'Amount is required';
       }
 
       if (this.formErrors.date || this.formErrors.category || this.formErrors.amount) {
         return;
       }
 
-      if (this.expenseToEdit) {
-        const updatedExpenses = await editExpense(this.expenseToEdit.id, this.formData, this.expenses);
+      const payload = {
+        date: this.formData.date,
+        categoryId: this.formData.categoryId,
+        amount: this.formData.amount,
+        note: this.formData.note,
+        userId: this.formData.userId,
+      };
 
+      if (this.expenseToEdit) {
+        const updatedExpenses = await editExpense(this.expenseToEdit.id, payload, this.expenses);
         if (this.updateExpenses) {
           this.updateExpenses(updatedExpenses);
         }
-
-        this.$emit('edit-expense', this.formData); // Emit the event after editing
+        this.$emit('edit-expense', payload);
       } else {
-        await addExpense(this.formData);
-        this.formData = { date: '', category: '', amount: null, note: '', userId: this.formData.userId };
+        await addExpense(payload);
+        this.formData = {
+          date: this.getTodayDate(),
+          categoryId: null,
+          categoryName: '',
+          amount: null,
+          note: '',
+          userId: this.formData.userId,
+        };
         this.formErrors = { date: '', category: '', amount: '' };
-        this.$router.push('/dashboard'); // Redirect to dashboard after adding expense
+        this.$router.push('/expenses'); // Redirect to view expenses page
       }
     },
   },
